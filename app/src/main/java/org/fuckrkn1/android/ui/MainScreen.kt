@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.fuckrkn1.android.R
@@ -19,6 +20,7 @@ import org.fuckrkn1.android.ui.style.TextStyles
 fun MainScreen(
     uiEventListener: (MainUiEvent) -> Unit
 ) {
+    BackgroundNoise()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,16 +31,22 @@ fun MainScreen(
         TextButton(onClick = { uiEventListener(MainUiEvent.ABOUT_CLICK) }) {
             Text(
                 text = stringResource(id = R.string.about),
-                style = TextStyles.textNormal(14.sp)
+                style = TextStyles.textSemiBold(14.sp)
             )
         }
         TextButton(onClick = { uiEventListener(MainUiEvent.SUPPORT_US_CLICK) }) {
             Text(
                 text = stringResource(id = R.string.support_us),
-                style = TextStyles.textNormal(14.sp)
+                style = TextStyles.textSemiBold(14.sp)
             )
         }
     }
+}
+
+@Composable
+@Preview
+private fun MainScreenPreview() {
+    MainScreen(uiEventListener = {})
 }
 
 enum class MainUiEvent {

@@ -31,6 +31,7 @@ fun AboutScreen(
     socialNetworks: List<SocialNetwork>,
     uiEventListener: (CommonUiEvent) -> Unit,
 ) {
+    BackgroundNoise()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,12 +44,12 @@ fun AboutScreen(
             TextButton(onClick = { uiEventListener(CommonUiEvent.Back) }) {
                 Text(
                     text = stringResource(id = R.string.arrow_back),
-                    style = TextStyles.textNormal(14.sp),
+                    style = TextStyles.textSemiBold(14.sp),
                 )
             }
             Text(
                 text = stringResource(id = R.string.about_title),
-                style = TextStyles.textNormal(22.sp),
+                style = TextStyles.textSemiBold(22.sp),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(

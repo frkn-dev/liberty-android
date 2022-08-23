@@ -30,6 +30,7 @@ fun SupportUsScreen(
     services: List<SupportService>,
     uiEventListener: (CommonUiEvent) -> Unit,
 ) {
+    BackgroundNoise()
     Column(
         modifier = Modifier
             .fillMaxSize()
