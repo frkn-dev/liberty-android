@@ -29,13 +29,13 @@ fun MainScreen(
         TextButton(onClick = { uiEventListener(MainUiEvent.ABOUT_CLICK) }) {
             Text(
                 text = stringResource(id = R.string.about),
-                style = TextStyles.blackText(14.sp)
+                style = TextStyles.textNormal(14.sp)
             )
         }
         TextButton(onClick = { uiEventListener(MainUiEvent.SUPPORT_US_CLICK) }) {
             Text(
                 text = stringResource(id = R.string.support_us),
-                style = TextStyles.blackText(14.sp)
+                style = TextStyles.textNormal(14.sp)
             )
         }
     }

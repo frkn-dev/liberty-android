@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -23,13 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.fuckrkn1.android.R
 import org.fuckrkn1.android.data.SocialNetwork
+import org.fuckrkn1.android.ui.action.CommonUiEvent
 import org.fuckrkn1.android.ui.style.TextStyles
 
 @Composable
 fun AboutScreen(
     socialNetworks: List<SocialNetwork>,
-    onBackClick: () -> Unit,
-    onUrlClick: (String) -> Unit,
+    uiEventListener: (CommonUiEvent) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -40,20 +40,20 @@ fun AboutScreen(
             modifier = Modifier
                 .padding(vertical = 20.dp, horizontal = 16.dp)
         ) {
-            TextButton(onClick = { onBackClick() }) {
+            TextButton(onClick = { uiEventListener(CommonUiEvent.Back) }) {
                 Text(
                     text = stringResource(id = R.string.arrow_back),
-                    style = TextStyles.blackText(14.sp),
+                    style = TextStyles.textNormal(14.sp),
                 )
             }
             Text(
                 text = stringResource(id = R.string.about_title),
-                style = TextStyles.blackText(22.sp),
+                style = TextStyles.textNormal(22.sp),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
                 text = stringResource(id = R.string.about_top_description),
-                style = TextStyles.blackText(14.sp),
+                style = TextStyles.textNormal(14.sp),
             )
         }
         Image(
@@ -68,7 +68,7 @@ fun AboutScreen(
         ) {
             Text(
                 text = stringResource(id = R.string.about_bottom_description),
-                style = TextStyles.blackText(14.sp),
+                style = TextStyles.textNormal(14.sp),
             )
         }
         Row(
@@ -78,15 +78,22 @@ fun AboutScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             socialNetworks.forEach {
-                IconButton(
-                    onClick = { onUrlClick(it.url) }
+                TextButton(
+                    onClick = { uiEventListener(CommonUiEvent.OpenUrl(it.url)) },
                 ) {
-                    Image(
-                        modifier = Modifier.size(60.dp),
-                        painter = painterResource(id = it.iconId),
-                        contentDescription = it.name,
-                        contentScale = ContentScale.None,
-                    )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Image(
+                            modifier = Modifier.size(32.dp),
+                            painter = painterResource(id = it.iconId),
+                            contentDescription = it.name,
+                            contentScale = ContentScale.Inside,
+                        )
+                        Text(
+                            modifier = Modifier.padding(top = 4.dp),
+                            text = it.name,
+                            style = TextStyles.textNormal(12.sp),
+                        )
+                    }
                 }
             }
         }
@@ -96,5 +103,5 @@ fun AboutScreen(
 @Composable
 @Preview
 private fun AboutScreenPreview() {
-    AboutScreen(socialNetworks = SocialNetwork.ALL, onBackClick = {}, onUrlClick = {})
+    AboutScreen(socialNetworks = SocialNetwork.ALL, uiEventListener = {})
 }
