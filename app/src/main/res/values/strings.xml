@@ -2,7 +2,7 @@
     <string name="app_name">FuckRKN1</string>
     <string name="about">About</string>
     <string name="support_us">Support us</string>
-    <string name="arrow_back">←Back</string>
+    <string name="arrow_back">Back</string>
     <string name="clipboard_copy_confirmation">Copied to clipboard</string>
 
     <!--  About screen  -->

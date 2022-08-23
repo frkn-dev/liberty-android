@@ -41,12 +41,7 @@ fun AboutScreen(
             modifier = Modifier
                 .padding(vertical = 20.dp, horizontal = 16.dp)
         ) {
-            TextButton(onClick = { uiEventListener(CommonUiEvent.Back) }) {
-                Text(
-                    text = stringResource(id = R.string.arrow_back),
-                    style = TextStyles.textSemiBold(14.sp),
-                )
-            }
+            BackButton(onClick = { uiEventListener(CommonUiEvent.Back) })
             Text(
                 text = stringResource(id = R.string.about_title),
                 style = TextStyles.textSemiBold(22.sp),
