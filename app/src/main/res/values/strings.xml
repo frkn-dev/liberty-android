@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">FuckRKN1</string>
+    <string name="about">About</string>
+    <string name="support_us">Support us</string>
+    <string name="arrow_back">←Back</string>
+
+    <!--  About screen  -->
+    <string name="about_title">Free VPN for free humans</string>
+    <string name="about_top_description">We are for freedom of speech and against any kind of censorship.\n\nWe are making a non-commercial VPN that does not collect any data.</string>
+    <string name="about_bottom_description">Today, freedom of speech is especially vulnerable. Independent media are banned, people are brainwashed with propaganda, VPN services are blocked, and it is dangerous to express one\'s position and opinion. This is the reason why we took on this project. It is non-commercial, no profit is pursued either. We are rather small, but yet, we have a great potential.</string>
 </resources>

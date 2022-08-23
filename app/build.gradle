@@ -22,6 +22,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        // Enables Jetpack Compose for this module
+        compose true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -29,12 +33,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.3.0'
+    }
 }
 
 dependencies {
 
     implementation(
             libs.appcompat,
+            libs.composeActivity,
+            libs.composeMaterial,
+            libs.composeTooling,
+            libs.componseNavigation,
             libs.constraintlayout,
             libs.corektx,
             libs.material,
