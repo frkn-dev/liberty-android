@@ -49,6 +49,7 @@ dependencies {
             libs.constraintlayout,
             libs.corektx,
             libs.material,
+            libs.drawablePainter,
     )
 
     testImplementation(
