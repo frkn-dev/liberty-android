@@ -14,7 +14,10 @@ import org.fuckrkn1.android.util.ClipboardUtils
 import org.fuckrkn1.android.util.UrlUtils
 
 @Composable
-fun LibertyApp() {
+fun LibertyApp(
+    mainToggleState: MainToggleState,
+    onToggleClick: () -> Unit,
+) {
     val navController = rememberNavController()
     val context = LocalContext.current
     val commonUiEventListener = { event: CommonUiEvent ->
@@ -28,12 +31,16 @@ fun LibertyApp() {
 
     NavHost(navController = navController, startDestination = AppRoute.MAIN) {
         composable(AppRoute.MAIN) {
-            MainScreen { event ->
-                when (event) {
-                    MainUiEvent.ABOUT_CLICK -> navController.navigate(AppRoute.ABOUT)
-                    MainUiEvent.SUPPORT_US_CLICK -> navController.navigate(AppRoute.SUPPORT_US)
-                }
-            }
+            MainScreen(
+                uiEventListener = { event ->
+                    when (event) {
+                        MainUiEvent.ABOUT_CLICK -> navController.navigate(AppRoute.ABOUT)
+                        MainUiEvent.SUPPORT_US_CLICK -> navController.navigate(AppRoute.SUPPORT_US)
+                        MainUiEvent.TOGGLE_CLICK -> onToggleClick()
+                    }
+                },
+                mainToggleState = mainToggleState,
+            )
         }
         composable(AppRoute.ABOUT) {
             AboutScreen(

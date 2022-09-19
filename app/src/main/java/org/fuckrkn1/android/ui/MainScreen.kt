@@ -1,8 +1,9 @@
 package org.fuckrkn1.android.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
@@ -10,7 +11,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,7 +20,8 @@ import org.fuckrkn1.android.ui.style.TextStyles
 
 @Composable
 fun MainScreen(
-    uiEventListener: (MainUiEvent) -> Unit
+    uiEventListener: (MainUiEvent) -> Unit,
+    mainToggleState: MainToggleState,
 ) {
     BackgroundNoise()
     MainDecoration()
@@ -44,15 +45,25 @@ fun MainScreen(
             )
         }
     }
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        MainToggle(
+            state = mainToggleState,
+            onClickListener = { uiEventListener(MainUiEvent.TOGGLE_CLICK) }
+        )
+    }
 }
 
 @Composable
 @Preview
 private fun MainScreenPreview() {
-    MainScreen(uiEventListener = {})
+    MainScreen(uiEventListener = {}, mainToggleState = MainToggleState.INACTIVE)
 }
 
 enum class MainUiEvent {
     ABOUT_CLICK,
     SUPPORT_US_CLICK,
+    TOGGLE_CLICK,
 }
