@@ -14,6 +14,7 @@ ext {
             corektx           : 'androidx.core:core-ktx:1.8.0',
             material          : 'com.google.android.material:material:1.6.1',
             drawablePainter   : 'com.google.accompanist:accompanist-drawablepainter:0.25.1',
+            wireguardTunnel   : 'com.wireguard.android:tunnel:1.0.20211029',
 
             // tests
             junit             : 'junit:junit:4.13.2',
@@ -21,5 +22,8 @@ ext {
             // android tests
             androidJunit      : 'androidx.test.ext:junit:1.1.3',
             espressoCore      : 'androidx.test.espresso:espresso-core:3.4.0',
+
+            // desugaring
+            desugar           : 'com.android.tools:desugar_jdk_libs:1.1.5'
     ]
 }

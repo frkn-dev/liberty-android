@@ -1,0 +1,10 @@
+[Interface]
+Address = 10.7.0.172/24
+DNS = 1.1.1.1, 1.0.0.1
+PrivateKey = oIqgSC98NAXoZH/IJooA4XJdxwZlsh0jedh0FGbWN2E=
+
+[Peer]
+PublicKey = DXn0oXV5/5fCtgKlf9VjqKkECX/wibquJYX6/9wCASM=
+PresharedKey = WMCSaXPcMNUyr7J6KvwqtUk3dhAJjWlhzTRgAkYAHQc=
+AllowedIPs = 0.0.0.0/0
+Endpoint = 94.176.238.220:51820

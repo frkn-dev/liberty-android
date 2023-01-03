@@ -3,7 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.fuckrkn1.android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <permission
+        android:name="${applicationId}.permission.CONTROL_TUNNELS"
+        android:icon="@mipmap/ic_launcher"
+        android:protectionLevel="dangerous" />
+
     <application
+        android:name=".LibertyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,6 +30,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--
+        This service is supposed to be merged automatically
+        but in tunnel library it has no export attribute
+        -->
+        <service
+            android:name="com.wireguard.android.backend.GoBackend$VpnService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".tunnel.TunnelBroadcastReceiver"
+            android:permission="${applicationId}.permission.CONTROL_TUNNELS"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.wireguard.android.action.REFRESH_TUNNEL_STATES" />
+                <action android:name="com.wireguard.android.action.SET_TUNNEL_UP" />
+                <action android:name="com.wireguard.android.action.SET_TUNNEL_DOWN" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
