@@ -3,6 +3,7 @@ ext {
             compileSdk: 32,
             minSdk    : 21,
             targetSdk : 32,
+            retrofit  : '2.9.0',
     ]
     libs = [
             appcompat         : 'androidx.appcompat:appcompat:1.5.0',
@@ -15,6 +16,8 @@ ext {
             material          : 'com.google.android.material:material:1.6.1',
             drawablePainter   : 'com.google.accompanist:accompanist-drawablepainter:0.25.1',
             wireguardTunnel   : 'com.wireguard.android:tunnel:1.0.20211029',
+            retrofit          : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+            retrofitGson      : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
 
             // tests
             junit             : 'junit:junit:4.13.2',
