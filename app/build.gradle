@@ -54,6 +54,7 @@ dependencies {
             libs.wireguardTunnel,
             libs.retrofit,
             libs.retrofitGson,
+            'org.bouncycastle:bcprov-jdk15on:1.68',
     )
 
     testImplementation(
