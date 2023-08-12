@@ -9,7 +9,6 @@ import org.fuckrkn1.android.util.CryptoUtils
 
 class LibertyApp : Application() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
 

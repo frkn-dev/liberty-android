@@ -17,11 +17,9 @@ class CryptoUtils {
 
     private var keyPair: AsymmetricCipherKeyPair? = null
 
-    @get:RequiresApi(Build.VERSION_CODES.O)
     val privateKey: String?
         get() { return keyToString(keyPair?.private) }
 
-    @get:RequiresApi(Build.VERSION_CODES.O)
     val publicKey: String?
         get() { return keyToString(keyPair?.public) }
 
@@ -59,7 +57,6 @@ class CryptoUtils {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun keyToString(key: AsymmetricKeyParameter?): String? {
         val keyBytes = keyToBytes(key) ?: return null
         return Base64.getEncoder().encodeToString(keyBytes)

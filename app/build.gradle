@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "org.fuckrkn1.android"
-        minSdk versions.minSdk
+        minSdk 26
         targetSdk versions.targetSdk
         versionCode 1
         versionName "1.0"
