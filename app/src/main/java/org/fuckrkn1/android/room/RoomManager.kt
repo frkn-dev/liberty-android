@@ -25,19 +25,19 @@ object RoomManager {
         db = Room.databaseBuilder(
             applicationContext,
             FrknDatabase::class.java, "frkn-db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     // MARK: - KeyPair methods
 
-    fun getKeyPair(): KeyPair? {
+    suspend fun getKeyPair(): KeyPair? {
 
         val dao = db.keyPairDao()
         val keyPair = dao.getAllKeyPairs().firstOrNull()
         return keyPair
     }
 
-    fun saveKeyPair(privateKey: String, publicKey: String) {
+    suspend fun saveKeyPair(privateKey: String, publicKey: String) {
 
         val dao = db.keyPairDao()
         val keyPair = KeyPair(privateKey = privateKey, publicKey = publicKey)
@@ -45,7 +45,7 @@ object RoomManager {
         dao.insertKeyPair(keyPair)
     }
 
-    fun delete(keyPair: KeyPair) {
+    suspend fun delete(keyPair: KeyPair) {
 
         val dao = db.keyPairDao()
         dao.deleteKeyPair(keyPair)

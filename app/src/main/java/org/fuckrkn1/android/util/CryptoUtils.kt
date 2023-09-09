@@ -1,6 +1,11 @@
 package org.fuckrkn1.android.util
 
 import android.util.Log
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.bouncycastle.crypto.generators.X25519KeyPairGenerator
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter
 import org.bouncycastle.crypto.params.X25519KeyGenerationParameters
@@ -12,6 +17,13 @@ import java.util.Base64
 
 class CryptoUtils {
 
+    // MARK: - Coroutines
+
+    private val scope =
+        CoroutineScope(SupervisorJob() + Dispatchers.Default + CoroutineExceptionHandler { _, exception ->
+            Log.e("CryptoUtils-CoroutineScope", "Caught $exception")
+        })
+
     // MARK: - Parameters
 
     lateinit var privateKey: String
@@ -21,16 +33,18 @@ class CryptoUtils {
 
     init {
 
-        val savedKeyPair = RoomManager.getKeyPair()
-        if (savedKeyPair == null) {
-            this.generateKeyPair()
-        } else {
-            privateKey = savedKeyPair.privateKey
-            publicKey  = savedKeyPair.publicKey
-        }
+        scope.launch {
+            val savedKeyPair = RoomManager.getKeyPair()
+            if (savedKeyPair == null) {
+                generateKeyPair()
+            } else {
+                privateKey = savedKeyPair.privateKey
+                publicKey  = savedKeyPair.publicKey
+            }
 
-        Log.d("privateKey", privateKey)
-        Log.d("publicKey", publicKey)
+            Log.d("privateKey", privateKey)
+            Log.d("publicKey", publicKey)
+        }
     }
 
     // MARK: - Generate method
@@ -47,7 +61,9 @@ class CryptoUtils {
         privateKey = keyToString(keyPair.private)
         publicKey  = keyToString(keyPair.public)
 
-        RoomManager.saveKeyPair(privateKey, publicKey)
+        scope.launch {
+            RoomManager.saveKeyPair(privateKey, publicKey)
+        }
     }
 
     // MARK: - Conversion methods

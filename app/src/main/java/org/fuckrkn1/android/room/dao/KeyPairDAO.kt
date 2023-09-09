@@ -10,11 +10,11 @@ import org.fuckrkn1.android.room.entity.KeyPair
 @Dao
 interface KeyPairDAO {
     @Query( "SELECT * FROM keys")
-    fun getAllKeyPairs(): List<KeyPair>
+    suspend fun getAllKeyPairs(): List<KeyPair>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertKeyPair(keyPair: KeyPair)
+    suspend fun insertKeyPair(keyPair: KeyPair)
 
     @Delete
-    fun deleteKeyPair(keyPair: KeyPair)
+    suspend fun deleteKeyPair(keyPair: KeyPair)
 }
