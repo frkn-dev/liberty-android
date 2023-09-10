@@ -37,7 +37,7 @@ object ConfigManager {
 
     private suspend fun getWireGuardConfigFromServer(): Config? = withContext(Dispatchers.IO) {
 
-        val location = api.getLocations().first()
+        val location = api.getLocations().first { it.code != "ru" }
         val config = api.getPeer(location.code)
         RoomManager.saveConfigForWG(config)
         Config.Builder()
