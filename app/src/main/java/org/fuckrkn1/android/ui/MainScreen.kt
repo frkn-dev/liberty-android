@@ -54,6 +54,14 @@ fun MainScreen(
             onClickListener = { uiEventListener(MainUiEvent.TOGGLE_CLICK) }
         )
     }
+    Box(
+        modifier = Modifier.fillMaxSize().padding(vertical = 120.dp, horizontal = 30.dp),
+        contentAlignment = Alignment.BottomEnd,
+    ) {
+        CountrySpinner(
+            countries = listOf()
+        )
+    }
 }
 
 @Composable
@@ -65,5 +73,5 @@ private fun MainScreenPreview() {
 enum class MainUiEvent {
     ABOUT_CLICK,
     SUPPORT_US_CLICK,
-    TOGGLE_CLICK,
+    TOGGLE_CLICK
 }

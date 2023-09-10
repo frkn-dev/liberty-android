@@ -8,17 +8,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fuckrkn1.android.api.LibertyApi
 import org.fuckrkn1.android.room.RoomManager
+import org.fuckrkn1.android.room.entity.CountryDB
 import org.fuckrkn1.android.room.entity.WireGuardConfigDB
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ConfigManager {
-
-    private val api = Retrofit.Builder()
-        .baseUrl("https://api.fuckrkn1.org/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(LibertyApi::class.java)
 
     // MARK: - WireGuard
 
@@ -37,9 +32,9 @@ object ConfigManager {
 
     private suspend fun getWireGuardConfigFromServer(): Config? = withContext(Dispatchers.IO) {
 
-        val location = api.getLocations().filter{ it.code != "ru" }.randomOrNull() ?: return@withContext null
+        val location = ApiManager.api.getLocations().filter{ it.code != "ru" }.randomOrNull() ?: return@withContext null
 
-        val config = api.getPeer(location.code)
+        val config = ApiManager.api.getPeer(location.code)
         RoomManager.saveConfigForWG(config)
         Config.Builder()
             .setInterface(

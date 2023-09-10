@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity(), TunnelManager.OnStateChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             LibertyApp(
                 mainToggleState = state.value,
@@ -47,11 +48,6 @@ class MainActivity : ComponentActivity(), TunnelManager.OnStateChangeListener {
     }
 
     private fun toggleState() {
-//        state.value = when (state.value) {
-//            MainToggleState.ACTIVE -> MainToggleState.INACTIVE
-//            MainToggleState.INACTIVE -> MainToggleState.IN_PROGRESS
-//            MainToggleState.IN_PROGRESS -> MainToggleState.ACTIVE
-//        }
         val intent = GoBackend.VpnService.prepare(this)
         if (intent == null) {
             lifecycleScope.launch {

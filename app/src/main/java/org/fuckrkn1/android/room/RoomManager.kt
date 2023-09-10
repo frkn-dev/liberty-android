@@ -2,9 +2,11 @@ package org.fuckrkn1.android.room
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import com.wireguard.config.Config
 import org.fuckrkn1.android.api.ApiLocationConfig
+import org.fuckrkn1.android.room.entity.CountryDB
 import org.fuckrkn1.android.room.entity.KeyPairDB
 import org.fuckrkn1.android.room.entity.WireGuardConfigDB
 
@@ -52,6 +54,33 @@ object RoomManager {
 
         val dao = db.keyPairDao()
         dao.delete(keyPair)
+    }
+
+    // MARK: - Countries
+
+    suspend fun getAllCountries(): List<CountryDB> {
+
+        val dao = db.countriesDAO()
+        val countries = dao.getAllCountries()
+        return countries
+    }
+
+    suspend fun insert(newCountries: List<CountryDB>) {
+
+        val dao = db.countriesDAO()
+        val savedCountries = dao.getAllCountries()
+        val allCountries = savedCountries + newCountries
+        val countries = allCountries.groupBy { it.code }
+            .filter { it.value.size == 1 }
+            .flatMap { it.value }
+
+        countries.forEach { dao.insert(it) }
+    }
+
+    suspend fun delete(country: CountryDB) {
+
+        val dao = db.countriesDAO()
+        dao.delete(country)
     }
 
     // MARK: - WG config
