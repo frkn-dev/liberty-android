@@ -31,7 +31,7 @@ object TunnelManager {
         val newState = withContext(Dispatchers.IO) {
             when (val currentState = backend.getState(tunnel)) {
                 Tunnel.State.DOWN -> {
-                    val config = ConfigManager.getWireGuardConfig() // TODO error
+                    val config = ConfigManager.getWireGuardConfig()
                     if (config == null) {
                         Tunnel.State.DOWN
                     } else {

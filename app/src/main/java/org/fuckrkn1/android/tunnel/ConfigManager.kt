@@ -27,17 +27,18 @@ object ConfigManager {
         val savedConfig = RoomManager.getSavedConfigForWG()
 
         if (savedConfig == null) {
-            Log.d("ConfigManager", "Use network for getting new config")
+            Log.d("ConfigManager", "Use network for getting new WG config")
             getWireGuardConfigFromServer()
         } else {
-            Log.d("ConfigManager", "Use old config from database")
+            Log.d("ConfigManager", "Use old WG config from database")
             getWireGuardConfigFromSavedData(savedConfig)
         }
     }
 
     private suspend fun getWireGuardConfigFromServer(): Config? = withContext(Dispatchers.IO) {
 
-        val location = api.getLocations().filter{ it.code != "ru" }.random()
+        val location = api.getLocations().filter{ it.code != "ru" }.randomOrNull() ?: return@withContext null
+
         val config = api.getPeer(location.code)
         RoomManager.saveConfigForWG(config)
         Config.Builder()
