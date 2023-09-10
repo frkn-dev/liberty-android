@@ -7,6 +7,7 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.fuckrkn1.android.room.RoomManager
 import org.fuckrkn1.android.ui.MainToggleState
 
 object TunnelManager {
@@ -30,7 +31,7 @@ object TunnelManager {
         val newState = withContext(Dispatchers.IO) {
             when (val currentState = backend.getState(tunnel)) {
                 Tunnel.State.DOWN -> {
-                    val config = ConfigManager.getCurrentConfig() // TODO error
+                    val config = ConfigManager.getWireGuardConfig() // TODO error
                     if (config == null) {
                         Tunnel.State.DOWN
                     } else {

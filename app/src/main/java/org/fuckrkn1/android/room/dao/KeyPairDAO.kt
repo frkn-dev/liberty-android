@@ -5,16 +5,16 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import org.fuckrkn1.android.room.entity.KeyPair
+import org.fuckrkn1.android.room.entity.KeyPairDB
 
 @Dao
 interface KeyPairDAO {
     @Query( "SELECT * FROM keys")
-    suspend fun getAllKeyPairs(): List<KeyPair>
+    suspend fun getAllKeyPairs(): List<KeyPairDB>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertKeyPair(keyPair: KeyPair)
+    suspend fun insert(keyPair: KeyPairDB)
 
     @Delete
-    suspend fun deleteKeyPair(keyPair: KeyPair)
+    suspend fun delete(keyPair: KeyPairDB)
 }

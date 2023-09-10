@@ -1,11 +1,14 @@
 package org.fuckrkn1.android.tunnel
 
+import android.util.Log
 import com.wireguard.config.Config
 import com.wireguard.config.Interface
 import com.wireguard.config.Peer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fuckrkn1.android.api.LibertyApi
+import org.fuckrkn1.android.room.RoomManager
+import org.fuckrkn1.android.room.entity.WireGuardConfigDB
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,9 +20,26 @@ object ConfigManager {
         .build()
         .create(LibertyApi::class.java)
 
-    suspend fun getCurrentConfig(): Config? = withContext(Dispatchers.IO) {
+    // MARK: - WireGuard
+
+    suspend fun getWireGuardConfig(): Config? = withContext(Dispatchers.IO) {
+
+        val savedConfig = RoomManager.getSavedConfigForWG()
+
+        if (savedConfig == null) {
+            Log.d("ConfigManager", "Use network for getting new config")
+            getWireGuardConfigFromServer()
+        } else {
+            Log.d("ConfigManager", "Use old config from database")
+            getWireGuardConfigFromSavedData(savedConfig)
+        }
+    }
+
+    private suspend fun getWireGuardConfigFromServer(): Config? = withContext(Dispatchers.IO) {
+
         val location = api.getLocations().first()
         val config = api.getPeer(location.code)
+        RoomManager.saveConfigForWG(config)
         Config.Builder()
             .setInterface(
                 Interface.Builder()
@@ -33,6 +53,26 @@ object ConfigManager {
                     .parsePublicKey(config.peer.pubkey)
                     .parseAllowedIPs(config.peer.allowedIps)
                     .parseEndpoint(config.peer.endpoint)
+                    .build()
+            )
+            .build()
+    }
+
+    private suspend fun getWireGuardConfigFromSavedData(savedConfig: WireGuardConfigDB): Config?  = withContext(Dispatchers.IO) {
+
+        Config.Builder()
+            .setInterface(
+                Interface.Builder()
+                    .parseAddresses(savedConfig.address)
+                    .parsePrivateKey(savedConfig.key)
+                    .parseDnsServers(savedConfig.dns)
+                    .build()
+            )
+            .addPeer(
+                Peer.Builder()
+                    .parsePublicKey(savedConfig.pubkey)
+                    .parseAllowedIPs(savedConfig.allowedIps)
+                    .parseEndpoint(savedConfig.endpoint)
                     .build()
             )
             .build()
