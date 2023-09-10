@@ -13,14 +13,19 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import org.fuckrkn1.android.room.entity.CountryDB
+import org.fuckrkn1.android.tunnel.CountryManager
+import org.fuckrkn1.android.viewModels.CountrySpinnerViewModel
 
 @Composable
 fun CountrySpinner(
-    countries: List<String>
+    viewModel: CountrySpinnerViewModel
 ){
 
+    val countries by viewModel.countries.collectAsState()
+
     var expanded by remember { mutableStateOf(false) }
-    var selectedCountry by remember { mutableStateOf(countries.firstOrNull() ?: "") }
+    var selectedCountry by remember { mutableStateOf(countries.firstOrNull() ?: CountryDB("none", "None")) }
     var textFieldSize by remember { mutableStateOf(Size.Zero)}
 
     val icon = if (expanded)
@@ -31,8 +36,8 @@ fun CountrySpinner(
     Column(Modifier.padding(20.dp)) {
 
         OutlinedTextField(
-            value = selectedCountry,
-            onValueChange = { selectedCountry = it },
+            value = selectedCountry.name,
+            onValueChange = { country -> selectedCountry = countries.firstOrNull { it.name == country } ?: CountryDB("none", "None") },
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
@@ -53,16 +58,20 @@ fun CountrySpinner(
             modifier = Modifier
                 .width(with(LocalDensity.current){textFieldSize.width.toDp()})
         ) {
-            countries.forEach { label ->
+            countries.forEach { country ->
                 DropdownMenuItem(onClick = {
-                    selectedCountry = label
+                    CountryManager.activeCountry = country
+                    selectedCountry = country
                     expanded = false
                 }) {
-                    Text(text = label)
+                    Text(text = country.name)
                 }
             }
         }
     }
 
-
+    // API call
+    LaunchedEffect(null) {
+        viewModel.fetchCountries()
+    }
 }

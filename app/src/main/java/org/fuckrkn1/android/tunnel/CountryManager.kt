@@ -1,24 +1,29 @@
 package org.fuckrkn1.android.tunnel
 
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.fuckrkn1.android.room.RoomManager
 import org.fuckrkn1.android.room.entity.CountryDB
 
 object CountryManager {
 
-    suspend fun downloadListFromServer() {
+    var activeCountry: CountryDB? = null
 
-        val locations = ApiManager.api.getLocations()
+    suspend fun downloadListFromServer(): List<CountryDB> = withContext(Dispatchers.IO) {
 
-        if (locations.isNotEmpty()) {
-            val countries = locations.map { CountryDB(code = it.code, name = it.name) }
+        val countries = ApiManager.api.getLocations().map { CountryDB(code = it.code, name = it.name) }
+
+        if (countries.isNotEmpty()) {
             RoomManager.insert(countries)
         } else {
             Log.d("CountryManager", "Empty countries list from server")
         }
+
+        return@withContext countries
     }
 
-    suspend fun getCountriesList(): List<CountryDB> {
-        return RoomManager.getAllCountries()
+    suspend fun getCountriesList(): List<CountryDB> = withContext(Dispatchers.IO) {
+        return@withContext RoomManager.getAllCountries()
     }
 }

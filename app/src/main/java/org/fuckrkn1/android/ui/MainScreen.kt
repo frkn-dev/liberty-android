@@ -17,11 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.fuckrkn1.android.R
 import org.fuckrkn1.android.ui.style.TextStyles
+import org.fuckrkn1.android.viewModels.CountrySpinnerViewModel
 
 @Composable
 fun MainScreen(
     uiEventListener: (MainUiEvent) -> Unit,
     mainToggleState: MainToggleState,
+    countrySpinnerViewModel: CountrySpinnerViewModel?,
 ) {
     BackgroundNoise()
     MainDecoration()
@@ -58,16 +60,14 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize().padding(vertical = 120.dp, horizontal = 30.dp),
         contentAlignment = Alignment.BottomEnd,
     ) {
-        CountrySpinner(
-            countries = listOf()
-        )
+        if (countrySpinnerViewModel != null) { CountrySpinner(countrySpinnerViewModel) }
     }
 }
 
 @Composable
 @Preview
 private fun MainScreenPreview() {
-    MainScreen(uiEventListener = {}, mainToggleState = MainToggleState.INACTIVE)
+    MainScreen(uiEventListener = {}, mainToggleState = MainToggleState.INACTIVE, null)
 }
 
 enum class MainUiEvent {

@@ -5,12 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.launch
 import org.fuckrkn1.android.tunnel.TunnelManager
 import org.fuckrkn1.android.ui.LibertyApp
 import org.fuckrkn1.android.ui.MainToggleState
+import org.fuckrkn1.android.viewModels.CountrySpinnerViewModel
+import org.fuckrkn1.android.viewModels.factory.CountrySpinnerViewModelFactory
 
 class MainActivity : ComponentActivity(), TunnelManager.OnStateChangeListener {
 
@@ -28,7 +31,8 @@ class MainActivity : ComponentActivity(), TunnelManager.OnStateChangeListener {
                 mainToggleState = state.value,
                 onToggleClick = {
                     toggleState()
-                }
+                },
+                countrySpinnerViewModel = ViewModelProvider(this, CountrySpinnerViewModelFactory()).get(CountrySpinnerViewModel::class.java)
             )
         }
     }

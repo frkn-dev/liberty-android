@@ -12,11 +12,13 @@ import org.fuckrkn1.android.navigation.AppRoute
 import org.fuckrkn1.android.ui.action.CommonUiEvent
 import org.fuckrkn1.android.util.ClipboardUtils
 import org.fuckrkn1.android.util.UrlUtils
+import org.fuckrkn1.android.viewModels.CountrySpinnerViewModel
 
 @Composable
 fun LibertyApp(
     mainToggleState: MainToggleState,
     onToggleClick: () -> Unit,
+    countrySpinnerViewModel: CountrySpinnerViewModel
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current
@@ -40,6 +42,7 @@ fun LibertyApp(
                     }
                 },
                 mainToggleState = mainToggleState,
+                countrySpinnerViewModel = countrySpinnerViewModel
             )
         }
         composable(AppRoute.ABOUT) {
