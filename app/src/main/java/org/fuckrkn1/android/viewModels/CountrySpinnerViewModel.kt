@@ -15,16 +15,30 @@ class CountrySpinnerViewModel: ViewModel() {
     val countries: StateFlow<List<CountryDB>>
         get() = _countries
 
+
+    private val _selectedCountry: MutableStateFlow<CountryDB> = MutableStateFlow(CountryDB("none", "None"))
+    val selectedCountry: StateFlow<CountryDB>
+        get() = _selectedCountry
+
     // MARK: - Fetch
     suspend fun fetchCountries() {
 
         viewModelScope.run {
-            val savedCountries = CountryManager.getCountriesList()
-            if (savedCountries.isEmpty()) {
-                _countries.value = CountryManager.downloadListFromServer()
-            } else {
-                _countries.value = savedCountries
+
+            _countries.value = CountryManager.getCountriesList()
+
+            val newCountries = CountryManager.downloadListFromServer()
+            if (newCountries.isNotEmpty()) {
+                _countries.value = newCountries
             }
+
+            _selectedCountry.value = CountryManager.restoreActiveCountry() ?: CountryDB("none", "None")
         }
+    }
+
+    fun setupActiveCountryBy(name: String) {
+
+        CountryManager.setupActiveCountryBy(name)
+        _selectedCountry.value = CountryManager.activeCountry ?: CountryDB("none", "None")
     }
 }

@@ -8,7 +8,7 @@ import java.util.UUID
 
 @Entity(tableName = "wireguard")
 data class WireGuardConfigDB(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
+    @PrimaryKey val id: String,
     val address: String,
     val key: String,
     val dns: String,

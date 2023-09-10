@@ -92,11 +92,12 @@ object RoomManager {
         return config
     }
 
-    suspend fun saveConfigForWG(config: ApiLocationConfig) {
+    suspend fun saveConfigForWG(activeCountry: CountryDB, config: ApiLocationConfig) {
 
         val dao = db.wgConfigDao()
 
         val wgConfigForDB = WireGuardConfigDB(
+            id = activeCountry.code,
             address = config.iface.address,
             key = config.iface.key,
             dns = config.iface.dns,
@@ -108,7 +109,7 @@ object RoomManager {
         dao.save(wgConfigForDB)
     }
 
-    suspend fun deleteLastSavedConfigForWG(config: WireGuardConfigDB) {
+    suspend fun delete(config: WireGuardConfigDB) {
 
         val dao = db.wgConfigDao()
         dao.delete(config)

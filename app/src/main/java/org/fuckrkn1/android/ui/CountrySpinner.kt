@@ -23,9 +23,9 @@ fun CountrySpinner(
 ){
 
     val countries by viewModel.countries.collectAsState()
+    val lastSelectedCountry by viewModel.selectedCountry.collectAsState()
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedCountry by remember { mutableStateOf(countries.firstOrNull() ?: CountryDB("none", "None")) }
     var textFieldSize by remember { mutableStateOf(Size.Zero)}
 
     val icon = if (expanded)
@@ -36,8 +36,8 @@ fun CountrySpinner(
     Column(Modifier.padding(20.dp)) {
 
         OutlinedTextField(
-            value = selectedCountry.name,
-            onValueChange = { country -> selectedCountry = countries.firstOrNull { it.name == country } ?: CountryDB("none", "None") },
+            value = lastSelectedCountry.name,
+            onValueChange = {  },
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
@@ -60,8 +60,7 @@ fun CountrySpinner(
         ) {
             countries.forEach { country ->
                 DropdownMenuItem(onClick = {
-                    CountryManager.activeCountry = country
-                    selectedCountry = country
+                    viewModel.setupActiveCountryBy(country.name)
                     expanded = false
                 }) {
                     Text(text = country.name)
